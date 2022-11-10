@@ -3,7 +3,7 @@
   <nextMetaDataId>7</nextMetaDataId>
   <name>Receive HL7 Msg - Send to Final Dest</name>
   <description></description>
-  <revision>42</revision>
+  <revision>44</revision>
   <sourceConnector version="4.1.1">
     <metaDataId>0</metaDataId>
     <name>sourceConnector</name>
@@ -58,6 +58,7 @@ for (i=0; i&lt;msg[&apos;FT1&apos;].size(); i++) {
 	total += parseInt($(&apos;amount&apos;));
 }
 
+//MAP THE FINAL TOTAL TO THE CHANNEL MAP FOR USE IN DESTINATIONS
 channelMap.put(&apos;grandTotal&apos;, total);</script>
               </com.mirth.connect.plugins.javascriptstep.JavaScriptStep>
             </children>
@@ -473,6 +474,8 @@ channelMap.put(&apos;renderingProvider&apos;, rendProvider);</script>
       </properties>
       <transformer version="4.1.1">
         <elements/>
+        <inboundTemplate encoding="base64">TVNIfF5+XCZ8Q3VzdG9tIEVNUnxUb255cyBTY3JpcHR8UmVjZWl2aW5nIEVNUnxEdXN0aW5zIEFQUHxUaW1lL0RhdGV8fG1zZyB0eXBlXlAwM3xCTjExMzQzMTU5MnxDaGFubmVsIE5hbWV8Mi4zClBJRHwxfGV4dGVybmFsIElEfGludGVybmFsIElEfGFsdGVybmF0ZSBJRHxsYXN0TmFtZV5maXJzdE5hbWV8fERPQnxzZXh8fHxhZGRyZXNzfHxwaG9uZTF8cGhvbmUyfHx8fFdDMDAxXjFJMkNXVldXMlU0ClBWMXwxfHxeXl5mYWNpbGl0eV5eOHx8fHxyZW5kfHJlZmVyfGNvbnN1bHQKRlQxfDF8fHx0cmFuc2FjdGlvbiBkYXRlfHBvc3RpbmcgZGF0ZXx8OTc1NDVeY29kZSBkZXNjfGluanVyeSBkZXNjcmlwdGlvbnx8fHxhbW91bnR8fHx8fHx8TTI1LjU2MnxyZW5kfHJlZmVyfHx8fHwKSU4xfDF8fA==</inboundTemplate>
+        <outboundTemplate encoding="base64"></outboundTemplate>
         <inboundDataType>HL7V2</inboundDataType>
         <outboundDataType>HL7V2</outboundDataType>
         <inboundProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2DataTypeProperties" version="4.1.1">
@@ -638,7 +641,37 @@ channelMap.put(&apos;renderingProvider&apos;, rendProvider);</script>
         </outboundProperties>
       </responseTransformer>
       <filter version="4.1.1">
-        <elements/>
+        <elements>
+          <com.mirth.connect.plugins.javascriptrule.JavaScriptRule version="4.1.1">
+            <name>Only accept HL7 messages from specific rendering providers</name>
+            <sequenceNumber>0</sequenceNumber>
+            <enabled>true</enabled>
+            <script>//FILTER FOR SPECIFIC RENDERING PROVIDER OR ANY NUMBER OF DATA POINTS
+//WE COULD USE .CONTAINS ALSO
+if($(&apos;renderingProvider&apos;).toString() == &quot;dr stash&quot;){
+	return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//</script>
+          </com.mirth.connect.plugins.javascriptrule.JavaScriptRule>
+        </elements>
       </filter>
       <transportName>File Writer</transportName>
       <mode>DESTINATION</mode>
@@ -850,7 +883,7 @@ channelMap.put(&apos;jsonPacketForJason&apos;, jsonPacket);</script>
     </connector>
     <connector version="4.1.1">
       <metaDataId>4</metaDataId>
-      <name>Update Database</name>
+      <name>Update Database with filter for patient names</name>
       <properties class="com.mirth.connect.connectors.jdbc.DatabaseDispatcherProperties" version="4.1.1">
         <pluginProperties/>
         <destinationConnectorProperties version="4.1.1">
@@ -1124,13 +1157,16 @@ channelMap.put(&apos;jsonPacketForJason&apos;, jsonPacket);</script>
         <queueOnResponseTimeout>true</queueOnResponseTimeout>
         <dataTypeBinary>false</dataTypeBinary>
         <charsetEncoding>DEFAULT_ENCODING</charsetEncoding>
-        <template>${message.channelName}
+        <template>//THE ERROR FILE WILL BE CREATED IF NO PATIENT NAME EXISTS (FIRST OR LAST)
+${message.channelName}
 ${message.encodedData}
 ${DATE}
-${d1.message}</template>
+${d1.message}
+</template>
       </properties>
       <transformer version="4.1.1">
         <elements/>
+        <inboundTemplate encoding="base64"></inboundTemplate>
         <inboundDataType>HL7V2</inboundDataType>
         <outboundDataType>HL7V2</outboundDataType>
         <inboundProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2DataTypeProperties" version="4.1.1">
@@ -1296,7 +1332,25 @@ ${d1.message}</template>
         </outboundProperties>
       </responseTransformer>
       <filter version="4.1.1">
-        <elements/>
+        <elements>
+          <com.mirth.connect.plugins.rulebuilder.RuleBuilderRule version="4.1.1">
+            <name>Accept message if &quot;$(&apos;patientFirstName&apos;)&quot; does not exist</name>
+            <sequenceNumber>0</sequenceNumber>
+            <enabled>true</enabled>
+            <field>$(&apos;patientFirstName&apos;)</field>
+            <condition>NOT_EXIST</condition>
+            <values/>
+          </com.mirth.connect.plugins.rulebuilder.RuleBuilderRule>
+          <com.mirth.connect.plugins.rulebuilder.RuleBuilderRule version="4.1.1">
+            <name>Accept message if &quot;$(&apos;patientLastName&apos;)&quot; does not exist</name>
+            <sequenceNumber>1</sequenceNumber>
+            <enabled>true</enabled>
+            <operator>OR</operator>
+            <field>$(&apos;patientLastName&apos;)</field>
+            <condition>NOT_EXIST</condition>
+            <values/>
+          </com.mirth.connect.plugins.rulebuilder.RuleBuilderRule>
+        </elements>
       </filter>
       <transportName>TCP Sender</transportName>
       <mode>DESTINATION</mode>
@@ -1540,12 +1594,12 @@ return;</postprocessingScript>
 // You only have access to the globalMap and globalChannelMap here to persist data
 
 //AN EXAMPLE OF STORING DIRECTORIES AND FILE PATHS
-globalChannelMap.put(SendPDF,&apos;/financeDept/StacysFolder/PDFfile&apos;);
-globalChannelMap.put(SendTXT,&apos;/backupFolder/HL7textFolder/textfile&apos;);
-globalChannelMap.put(SendErrorFile,&apos;remote server url&apos;);
-globalChannelMap.put(BossEmail, &apos;bigBoss@company.com&apos;);
-globalChannelMap.put(DBurl,&apos;url for database&apos;);
-globalChannelMap.put(emailServer,&apos;email server&apos;);
+//globalChannelMap.put(SendPDF,&apos;/financeDept/StacysFolder/PDFfile&apos;);
+//globalChannelMap.put(SendTXT,&apos;/backupFolder/HL7textFolder/textfile&apos;);
+//globalChannelMap.put(SendErrorFile,&apos;remote server url&apos;);
+//globalChannelMap.put(BossEmail, &apos;bigBoss@company.com&apos;);
+//globalChannelMap.put(DBurl,&apos;url for database&apos;);
+//globalChannelMap.put(emailServer,&apos;email server&apos;);
 return;</deployScript>
   <undeployScript>// This script executes once when the channel is undeployed
 // You only have access to the globalMap and globalChannelMap here to persist data
@@ -1586,7 +1640,7 @@ return;</undeployScript>
     <metadata>
       <enabled>false</enabled>
       <lastModified>
-        <time>1668056141806</time>
+        <time>1668118778816</time>
         <timezone>America/Chicago</timezone>
       </lastModified>
       <pruningSettings>

@@ -2,8 +2,14 @@
   <id>ad973d22-d136-4774-9e50-6400138d50a4</id>
   <nextMetaDataId>2</nextMetaDataId>
   <name>Receive Raw Data - Send to HL7 Channel</name>
-  <description></description>
-  <revision>18</revision>
+  <description>//TEST DATA:&#xd;
+firstName, lastName, DOB, address, zipCode, employer, injuryDate, phone, description, facility, rendering provider, refer provider, amount\n&#xd;
+John, Smith, 10-15-1985, 123 main st, 12345, walmart, 2-7-2001, 5551112222, broken leg, emergency room, dr stash, dr paul, 25\n&#xd;
+Jane, Doe, 8-2-1973, 321 elm st, 87654, bestbuy, 3-9-2008, 4443337777, sore thumb, clinic, dr nguyen, dr shen, 138.5\n&#xd;
+Stacey, Adams, 1-2-1992, 999 s orchard ave, 77665, amazon, 9-8-2020, 9998883333, torn ligament, hospital, nurse tammy, nurse tod, 3,245\n&#xd;
+Clark, Kent, 5-5-1995, 876 woodland ct, 99932, olive garden, cut finger, Toms fixin place, dr tom, nurse tom, 15\n&#xd;
+Spider, Man, 12-5-2000, 567 concord st, 96521, mcdonalds, pulled a hammy, Moms house, mother, father, 999</description>
+  <revision>19</revision>
   <sourceConnector version="4.1.1">
     <metaDataId>0</metaDataId>
     <name>sourceConnector</name>
@@ -610,7 +616,7 @@ return;</undeployScript>
     <metadata>
       <enabled>false</enabled>
       <lastModified>
-        <time>1668051331860</time>
+        <time>1668118698132</time>
         <timezone>America/Chicago</timezone>
       </lastModified>
       <pruningSettings>
