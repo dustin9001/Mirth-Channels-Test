@@ -2,8 +2,13 @@
   <id>70634483-4152-4f43-b606-101002dd4074</id>
   <nextMetaDataId>7</nextMetaDataId>
   <name>Receive HL7 Msg - Send to Final Dest</name>
-  <description></description>
-  <revision>44</revision>
+  <description>//TEMPLATE USED: &#xd;
+MSH|^~\&amp;|Custom EMR|Tonys Script|Receiving EMR|Dustins APP|Time/Date||msg type^P03|BN113431592|Channel Name|2.3&#xd;
+PID|1|external ID|internal ID|alternate ID|lastName^firstName||DOB|sex|||address||phone1|phone2||||WC001^1I2CWVWW2U4&#xd;
+PV1|1||^^^facility^^8||||rend|refer|consult&#xd;
+FT1|1|||transaction date|posting date||97545^code desc|injury description||||amount|||||||M25.562|rend|refer|||||&#xd;
+IN1|1||</description>
+  <revision>47</revision>
   <sourceConnector version="4.1.1">
     <metaDataId>0</metaDataId>
     <name>sourceConnector</name>
@@ -74,12 +79,14 @@ var firstName = msg[&apos;PID&apos;][&apos;PID.5&apos;][&apos;PID.5.2&apos;].toS
 var lastName = msg[&apos;PID&apos;][&apos;PID.5&apos;][&apos;PID.5.1&apos;].toString();
 var DOB = msg[&apos;PID&apos;][&apos;PID.7&apos;][&apos;PID.7.1&apos;].toString();
 var rendProvider = msg[&apos;PV1&apos;][&apos;PV1.7&apos;][&apos;PV1.7.1&apos;].toString();
+var nameOfChannel = msg[&apos;MSH&apos;][&apos;MSH.11&apos;][&apos;MSH.11.1&apos;].toString();
 
 channelMap.put(&apos;patientID&apos;, patientID);
 channelMap.put(&apos;patientFirstName&apos;, firstName);
 channelMap.put(&apos;patientLastName&apos;, lastName);
 channelMap.put(&apos;patientDOB&apos;, DOB);
-channelMap.put(&apos;renderingProvider&apos;, rendProvider);</script>
+channelMap.put(&apos;renderingProvider&apos;, rendProvider);
+channelMap.put(&apos;nameOfChannel&apos;, nameOfChannel);</script>
         </com.mirth.connect.plugins.javascriptstep.JavaScriptStep>
       </elements>
       <inboundTemplate encoding="base64">TVNIfF5+XCZ8Q3VzdG9tIEVNUnxUb255cyBTY3JpcHR8UmVjZWl2aW5nIEVNUnxEdXN0aW5zIEFQUHxUaW1lL0RhdGV8fG1zZyB0eXBlXlAwM3xCTjExMzQzMTU5MnxDaGFubmVsIE5hbWV8Mi4zClBJRHwxfGV4dGVybmFsIElEfGludGVybmFsIElEfGFsdGVybmF0ZSBJRHxsYXN0TmFtZV5maXJzdE5hbWV8fERPQnxzZXh8fHxhZGRyZXNzfHxwaG9uZTF8cGhvbmUyfHx8fFdDMDAxXjFJMkNXVldXMlU0ClBWMXwxfHxeXl5mYWNpbGl0eV5eOHx8fHxyZW5kfHJlZmVyfGNvbnN1bHQKRlQxfDF8fHx0cmFuc2FjdGlvbiBkYXRlfHBvc3RpbmcgZGF0ZXx8OTc1NDVeY29kZSBkZXNjfGluanVyeSBkZXNjcmlwdGlvbnx8fHxhbW91bnR8fHx8fHx8TTI1LjU2MnxyZW5kfHJlZmVyfHx8fHwKRlQxfDJ8fHx0cmFuc2FjdGlvbiBkYXRlfHBvc3RpbmcgZGF0ZXx8OTc1NDVeY29kZSBkZXNjfGluanVyeSBkZXNjcmlwdGlvbnx8fHxhbW91bnR8fHx8fHx8TTI1LjU2MnxyZW5kfHJlZmVyfHx8fHwKSU4xfDF8fA==</inboundTemplate>
@@ -212,7 +219,7 @@ channelMap.put(&apos;renderingProvider&apos;, rendProvider);</script>
 &lt;html&gt;
 &lt;body&gt;
 
-&lt;h1&gt;From Channel: ${message.channelName}&lt;/h1&gt;
+&lt;h1&gt;From Channel: ${nameOfChannel}&lt;/h1&gt;
 &lt;h4&gt;Date:${DATE}&lt;/h4&gt;
 &lt;p&gt;${grandTotal} &lt;/p&gt;
 
@@ -1640,7 +1647,7 @@ return;</undeployScript>
     <metadata>
       <enabled>false</enabled>
       <lastModified>
-        <time>1668118778816</time>
+        <time>1668119258177</time>
         <timezone>America/Chicago</timezone>
       </lastModified>
       <pruningSettings>
