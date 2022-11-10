@@ -8,7 +8,7 @@ PID|1|external ID|internal ID|alternate ID|lastName^firstName||DOB|sex|||address
 PV1|1||^^^facility^^8||||rend|refer|consult&#xd;
 FT1|1|||transaction date|posting date||97545^code desc|injury description||||amount|||||||M25.562|rend|refer|||||&#xd;
 IN1|1||</description>
-  <revision>47</revision>
+  <revision>48</revision>
   <sourceConnector version="4.1.1">
     <metaDataId>0</metaDataId>
     <name>sourceConnector</name>
@@ -173,7 +173,18 @@ channelMap.put(&apos;nameOfChannel&apos;, nameOfChannel);</script>
       </outboundProperties>
     </transformer>
     <filter version="4.1.1">
-      <elements/>
+      <elements>
+        <com.mirth.connect.plugins.rulebuilder.RuleBuilderRule version="4.1.1">
+          <name>Accept message if &quot;msg[&apos;MSH&apos;][&apos;MSH.9&apos;][&apos;MSH.9.2&apos;].toString()&quot; equals A01</name>
+          <sequenceNumber>0</sequenceNumber>
+          <enabled>true</enabled>
+          <field>msg[&apos;MSH&apos;][&apos;MSH.9&apos;][&apos;MSH.9.2&apos;].toString()</field>
+          <condition>EQUALS</condition>
+          <values>
+            <string>A01</string>
+          </values>
+        </com.mirth.connect.plugins.rulebuilder.RuleBuilderRule>
+      </elements>
     </filter>
     <transportName>Channel Reader</transportName>
     <mode>SOURCE</mode>
@@ -1647,7 +1658,7 @@ return;</undeployScript>
     <metadata>
       <enabled>false</enabled>
       <lastModified>
-        <time>1668119258177</time>
+        <time>1668120399161</time>
         <timezone>America/Chicago</timezone>
       </lastModified>
       <pruningSettings>

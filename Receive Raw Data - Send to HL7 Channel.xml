@@ -9,7 +9,7 @@ Jane, Doe, 8-2-1973, 321 elm st, 87654, bestbuy, 3-9-2008, 4443337777, sore thum
 Stacey, Adams, 1-2-1992, 999 s orchard ave, 77665, amazon, 9-8-2020, 9998883333, torn ligament, hospital, nurse tammy, nurse tod, 3,245\n&#xd;
 Clark, Kent, 5-5-1995, 876 woodland ct, 99932, olive garden, cut finger, Toms fixin place, dr tom, nurse tom, 15\n&#xd;
 Spider, Man, 12-5-2000, 567 concord st, 96521, mcdonalds, pulled a hammy, Moms house, mother, father, 999</description>
-  <revision>19</revision>
+  <revision>21</revision>
   <sourceConnector version="4.1.1">
     <metaDataId>0</metaDataId>
     <name>sourceConnector</name>
@@ -341,7 +341,7 @@ for(i=0; i&lt;msg[&apos;row&apos;].length(); i++) {
 
 
 
-
+var dateString = DateUtil.getCurrentDate(pattern);
 
 
 
@@ -362,7 +362,7 @@ for(i=0; i&lt;msg[&apos;row&apos;].length(); i++) {
           </com.mirth.connect.plugins.javascriptstep.JavaScriptStep>
         </elements>
         <inboundTemplate encoding="base64"></inboundTemplate>
-        <outboundTemplate encoding="base64">TVNIfF5+XCZ8Q3VzdG9tIEVNUnxUb255cyBTY3JpcHR8UmVjZWl2aW5nIEVNUnxEdXN0aW5zIEFQUHxUaW1lL0RhdGV8fG1zZyB0eXBlXlAwM3xCTjExMzQzMTU5MnxDaGFubmVsIE5hbWV8Mi4zClBJRHwxfGV4dGVybmFsIElEfGludGVybmFsIElEfGFsdGVybmF0ZSBJRHxsYXN0TmFtZV5maXJzdE5hbWV8fERPQnxzZXh8ZW1wbG95ZXJ8fGFkZHJlc3N8emlwQ29kZXxwaG9uZTF8cGhvbmUyfHx8fFdDMDAxXjFJMkNXVldXMlU0ClBWMXwxfHxeXl5mYWNpbGl0eV5eOHx8fHxyZW5kfHJlZmVyfGNvbnN1bHQKRlQxfDF8fHxpbmp1cnkgZGF0ZXxwb3N0aW5nIGRhdGV8fDk3NTQ1XmNvZGUgZGVzY3xpbmp1cnkgZGVzY3JpcHRpb258fHx8YW1vdW50fHx8fHx8fE0yNS41NjJ8cmVuZHxyZWZlcnx8fHx8CklOMXwxfHw=</outboundTemplate>
+        <outboundTemplate encoding="base64">TVNIfF5+XCZ8Q3VzdG9tIEVNUnxUb255cyBTY3JpcHR8UmVjZWl2aW5nIEVNUnxEdXN0aW5zIEFQUHxUaW1lL0RhdGV8fG1zZyB0eXBlXkEwMXxCTjExMzQzMTU5MnxDaGFubmVsIE5hbWV8Mi4zClBJRHwxfGV4dGVybmFsIElEfGludGVybmFsIElEfGFsdGVybmF0ZSBJRHxsYXN0TmFtZV5maXJzdE5hbWV8fERPQnxzZXh8ZW1wbG95ZXJ8fGFkZHJlc3N8emlwQ29kZXxwaG9uZTF8cGhvbmUyfHx8fFdDMDAxXjFJMkNXVldXMlU0ClBWMXwxfHxeXl5mYWNpbGl0eV5eOHx8fHxyZW5kfHJlZmVyfGNvbnN1bHQKRlQxfDF8fHxpbmp1cnkgZGF0ZXxwb3N0aW5nIGRhdGV8fDk3NTQ1XmNvZGUgZGVzY3xpbmp1cnkgZGVzY3JpcHRpb258fHx8YW1vdW50fHx8fHx8fE0yNS41NjJ8cmVuZHxyZWZlcnx8fHx8CklOMXwxfHw=</outboundTemplate>
         <inboundDataType>DELIMITED</inboundDataType>
         <outboundDataType>HL7V2</outboundDataType>
         <inboundProperties class="com.mirth.connect.plugins.datatypes.delimited.DelimitedDataTypeProperties" version="4.1.1">
@@ -616,7 +616,7 @@ return;</undeployScript>
     <metadata>
       <enabled>false</enabled>
       <lastModified>
-        <time>1668118698132</time>
+        <time>1668120428266</time>
         <timezone>America/Chicago</timezone>
       </lastModified>
       <pruningSettings>
