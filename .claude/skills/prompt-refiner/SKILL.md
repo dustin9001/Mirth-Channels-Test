@@ -45,7 +45,7 @@ Do **not** use this skill when:
 - The user only wants a direct answer/content, not a prompt for another AI.
 - The user wants actions executed (running code, calling APIs) instead of prompt design.
 
-If in doubt, **assume** they want a better, more efficient prompt and proceed.
+If in doubt, **ask** whether they want a prompt for another AI or a direct answer. Don't proceed until they confirm.
 
 ---
 
